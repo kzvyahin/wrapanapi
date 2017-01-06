@@ -52,7 +52,7 @@ class GoogleCloudSystem(MgmtSystemAPIBase):
         'stopping': ('STOPPING'),
     }
 
-    def __init__(self, project=None, zone=None, file_type=None, **kwargs):
+    def __init__(self, project=None, region=None, zone=None, file_type=None, **kwargs):
         """
             The last three argumets are optional and required only if you want
             to use json or p12 files.
@@ -72,6 +72,7 @@ class GoogleCloudSystem(MgmtSystemAPIBase):
         """
         super(GoogleCloudSystem, self).__init__(kwargs)
         self._project = project
+        self._region = region
         self._zone = zone
         scope = kwargs.get('scope', self.default_scope)
 
@@ -105,7 +106,7 @@ class GoogleCloudSystem(MgmtSystemAPIBase):
 
     def _get_all_forwarding_rules(self):
         results = []
-        results.extend(self._forwarding_rules.list(project=self._project, region=self._zone).
+        results.extend(self._forwarding_rules.list(project=self._project, region=self._region).
                        execute().get('items', []))
         return results
 
